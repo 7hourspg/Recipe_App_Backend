@@ -6,15 +6,18 @@ const router = express.Router()
 router.get('/cart/:id', (req, res) => {
   const { id } = req.params
   User.findById(id)
-    .then(user => res.json({ cart: user.cart }))
+    .then(user => res.json(user.cart))
     .catch(err => res.status(400).json(`Error: ${err}`))
+
 })
 
 router.put('/cart/:id', async (req, res) => {
   const { id } = req.params
-  console.log(id)
+//   console.log(req.body.quantity)
+
   const user = await User.findById(id)
   const itemIndex = user.cart.findIndex(item => item.productId === req.body._id)
+
 
   if (itemIndex !== -1) {
     // If the item exists, increment the quantity
@@ -26,7 +29,7 @@ router.put('/cart/:id', async (req, res) => {
       price: req.body.price,
       category: req.body.category,
       image: req.body.image,
-      quantity: req.body.quantity
+      quantity: 1
     })
   }
 
@@ -38,7 +41,7 @@ router.put('/cart/:id', async (req, res) => {
 router.delete('/cart/:id', async (req, res) => {
   const { id } = req.params
   const user = await User.findById(id)
-  const itemIndex = user.cart.findIndex(item => item.productId === req.body._id)
+  const itemIndex = user.cart.findIndex(item => item.productId === req.body.productId)
 
   if (itemIndex !== -1) {
     user.cart.splice(itemIndex, 1)
