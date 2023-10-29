@@ -8,16 +8,14 @@ router.get('/cart/:id', (req, res) => {
   User.findById(id)
     .then(user => res.json(user.cart))
     .catch(err => res.status(400).json(`Error: ${err}`))
-
 })
 
 router.put('/cart/:id', async (req, res) => {
   const { id } = req.params
-//   console.log(req.body.quantity)
+  //   console.log(req.body.quantity)
 
   const user = await User.findById(id)
   const itemIndex = user.cart.findIndex(item => item.productId === req.body._id)
-
 
   if (itemIndex !== -1) {
     // If the item exists, increment the quantity
@@ -41,7 +39,10 @@ router.put('/cart/:id', async (req, res) => {
 router.delete('/cart/:id', async (req, res) => {
   const { id } = req.params
   const user = await User.findById(id)
-  const itemIndex = user.cart.findIndex(item => item.productId === req.body.productId)
+  //   console.log(req.body)
+  const itemIndex = user.cart.findIndex(
+    item => item.productId === req.body.productId
+  )
 
   if (itemIndex !== -1) {
     user.cart.splice(itemIndex, 1)
@@ -55,10 +56,13 @@ router.delete('/cart/:id', async (req, res) => {
 router.put('/cart/:id/increment', async (req, res) => {
   const { id } = req.params
   const user = await User.findById(id)
-  const itemIndex = user.cart.findIndex(item => item.productId === req.body._id)
+  const itemIndex = user.cart.findIndex(
+    item => item.productId === req.body.productId
+  )
 
   if (itemIndex !== -1 && user.cart[itemIndex].quantity < 5) {
     user.cart[itemIndex].quantity += 1
+     
   }
 
   await user.save()
@@ -69,7 +73,9 @@ router.put('/cart/:id/increment', async (req, res) => {
 router.put('/cart/:id/decrement', async (req, res) => {
   const { id } = req.params
   const user = await User.findById(id)
-  const itemIndex = user.cart.findIndex(item => item.productId === req.body._id)
+  const itemIndex = user.cart.findIndex(
+    item => item.productId === req.body.productId
+  )
 
   if (itemIndex !== -1 && user.cart[itemIndex].quantity > 1) {
     user.cart[itemIndex].quantity -= 1
