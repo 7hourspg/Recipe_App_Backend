@@ -45,22 +45,12 @@ router.post('/login', (req, res) => {
     .catch(err => res.status(400).json(`Error: ${err}`))
 })
 
-// router.put('/cart/:id', (req, res) => {
-//   const { id } = req.params
-//   User.findByIdAndUpdate(id)
-//     .then(user => {
-//       user.cart.push(req.body)
 
-//       res.json(user)
-//     })
+// router.get('/cart/:id', (req, res) => {
+//   const { id } = req.params
+//   User.findById(id)
+//     .then(user => res.json(user.cart))
 //     .catch(err => res.status(400).json(`Error: ${err}`))
 // })
-
-router.get('/cart/:id', (req, res) => {
-  const { id } = req.params
-  User.findById(id)
-    .then(user => res.json(user.cart))
-    .catch(err => res.status(400).json(`Error: ${err}`))
-})
 
 export default router

@@ -5,6 +5,8 @@ import bodyParser from 'body-parser'
 import userRoutes from './routes/users.js'
 import connnectUser from './db/connectUser.js'
 import cartRoutes from './routes/cart.js'
+import connectSupport from './db/connectSupport.js'
+import supportRoutes from './routes/customerSupport.js'
 
 const app = express()
 
@@ -12,6 +14,7 @@ app.use(bodyParser.json())
 app.use('/api/recipes', apiRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/user', cartRoutes)
+app.use('/support',supportRoutes)
 
 const port = process.env.PORT || 3000
 
@@ -20,7 +23,8 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, async () => {
-  await connectDB()
-  await connnectUser()
+  connectDB()
+  connnectUser()
+  connectSupport()
   console.log(`Server is listening on port ${port}`)
 })

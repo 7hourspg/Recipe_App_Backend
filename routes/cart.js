@@ -12,13 +12,11 @@ router.get('/cart/:id', (req, res) => {
 
 router.put('/cart/:id', async (req, res) => {
   const { id } = req.params
-  //   console.log(req.body.quantity)
 
   const user = await User.findById(id)
   const itemIndex = user.cart.findIndex(item => item.productId === req.body._id)
 
   if (itemIndex !== -1) {
-    // If the item exists, increment the quantity
     user.cart[itemIndex].quantity += 1
   } else {
     user.cart.push({
@@ -39,7 +37,6 @@ router.put('/cart/:id', async (req, res) => {
 router.delete('/cart/:id', async (req, res) => {
   const { id } = req.params
   const user = await User.findById(id)
-  //   console.log(req.body)
   const itemIndex = user.cart.findIndex(
     item => item.productId === req.body.productId
   )
@@ -62,7 +59,6 @@ router.put('/cart/:id/increment', async (req, res) => {
 
   if (itemIndex !== -1 && user.cart[itemIndex].quantity < 5) {
     user.cart[itemIndex].quantity += 1
-     
   }
 
   await user.save()
@@ -85,7 +81,5 @@ router.put('/cart/:id/decrement', async (req, res) => {
 
   res.json(user)
 })
-
-
 
 export default router
