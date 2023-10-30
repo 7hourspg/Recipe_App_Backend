@@ -24,4 +24,27 @@ router.put('/:id', (req, res) => {
     .catch(err => res.status(400).json(`Error: ${err}`))
 })
 
+router.post('/filter-by-category', (req, res) => {
+  const { category } = req.body
+  console.log(req.body)
+  console.log(category)
+  Recipe.find({ category })
+    .then(recipes => res.json(recipes))
+    .catch(err => res.status(400).json(`Error: ${err}`))
+})
+
+router.get('/filter-by-price-low-to-high', (req, res) => {
+  Recipe.find()
+    .sort({ price: 1 })
+    .then(recipes => res.json(recipes))
+    .catch(err => res.status(400).json(`Error: ${err}`))
+})
+
+router.get('/filter-by-price-high-to-low', (req, res) => {
+  Recipe.find()
+    .sort({ price: -1 })
+    .then(recipes => res.json(recipes))
+    .catch(err => res.status(400).json(`Error: ${err}`))
+})
+
 export default router
